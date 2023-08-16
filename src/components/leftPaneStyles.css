@@ -1,0 +1,50 @@
+/* leftPaneStyles.css */
+/* styles.css */
+:root {
+    --background-color: white;
+    --text-color: black;
+}
+.left-pane {
+    width: 25%; /* 1/4 of the app component width */
+    padding: 20px;
+    background-color: #2c2f3a; /* Left pane background color */
+    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1; /* Ensure left pane is above the chart */
+    margin-right: 20px; /* Add some space between left pane and chart */
+}
+
+.left-pane {
+    width: 25%; /* 1/4 of the app component width */
+    padding: 20px;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1; /* Ensure left pane is above the chart */
+}
+
+.left-pane h2 {
+    color: rgb(125, 40, 40);
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.left-pane ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.left-pane li {
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin-bottom: 10px;
+}
+
+.left-pane a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+.left-pane a:hover {
+    color: #ff6b6b;
+}

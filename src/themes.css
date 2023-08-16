@@ -1,0 +1,12 @@
+/* themes.css */
+.light-theme {
+    --background-color: white;
+    --text-color: black;
+}
+
+.dark-theme {
+    --background-color: #1b1b1c;
+    --text-color: white;
+}
+
+/* Add more theme definitions as needed */

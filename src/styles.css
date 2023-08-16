@@ -1,0 +1,62 @@
+
+/* styles.css */
+:root {
+    --background-color: white;
+    --text-color: black;
+}
+
+/* App layout styles */
+.app {
+    display: flex;
+    align-items: stretch;
+    min-height: 100vh;
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color) /* Set overall background color */
+}
+
+/* Left pane styles */
+.left-pane {
+    width: 25%; /* 1/4 of the app component width */
+    padding: 20px;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1; /* Ensure left pane is above the chart */
+}
+
+.left-pane h2 {
+    color: rgb(125, 40, 40);
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.left-pane ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.left-pane li {
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin-bottom: 10px;
+}
+
+.left-pane a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+.left-pane a:hover {
+    color: #ff6b6b;
+}
+
+/* Chart styles */
+.chart-container {
+    flex: 1;
+    padding: 50px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    overflow: auto;
+}
