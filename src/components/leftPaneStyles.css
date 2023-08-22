@@ -13,6 +13,7 @@
     margin-right: 20px; /* Add some space between left pane and chart */
 }
 
+
 .left-pane {
     width: 25%; /* 1/4 of the app component width */
     padding: 20px;
@@ -44,7 +45,24 @@
     text-decoration: none;
     transition: color 0.3s ease-in-out;
 }
-
+/* Button styles */
+.chart-button {
+    background-color: #ab2525; /* Reddish color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    text-align: center;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    text-decoration: none;
+}
 .left-pane a:hover {
     color: #ff6b6b;
 }

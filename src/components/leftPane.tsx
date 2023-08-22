@@ -1,31 +1,29 @@
 // LeftPane.tsx
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './leftPaneStyles.css';
 import NightModeSwitch from './nightModeSwitch';
+import { ChartRoutes } from '../dataConfig/leftPane';
 interface LeftPaneProps {
     chartRoutes: Array<{ label: string; route: string }>;
     nightMode: boolean;
     onNightModeChange: (newNightMode: boolean) => void;
 }
 
-interface RequestParams {
-    class: string;
-    data: string;
-}
-
 const LeftPane: React.FC<LeftPaneProps> = ({ chartRoutes, nightMode, onNightModeChange }) => {
-    const handleNightModeChange = (nightMode: boolean) => {
-        console.log('nightMode', nightMode);
-    };
+    const navigate = useNavigate();
 
     return (
         <div className="left-pane">
-            <h2>Charts</h2>
+            <h2>Select your chart</h2>
             <ul>
                 {chartRoutes.map((chartRoute, index) => (
                     <li key={index}>
-                        <Link to={chartRoute.route}>{chartRoute.label}</Link>
+                        <button 
+                            className="chart-button" 
+                            onClick={() => navigate(chartRoute.route)}>
+                            {chartRoute.label}
+                        </button>
                     </li>
                 ))}
             </ul>

@@ -11,6 +11,7 @@ interface DataItem {
       [key: string]: number;
   };
 }
+
 interface ChartProps {
   requestParams: RequestParams;
 }
@@ -19,12 +20,61 @@ interface RequestParams {
   class: string;
   data: string;
 }
+
+const loadingOption = {
+  graphic: {
+    elements: [
+      {
+        type: 'text',
+        left: 'center',
+        top: 'center',
+        style: {
+          text: 'DataLouder',
+          fontSize: 40,
+          fontWeight: 'bold',
+          lineDash: [0, 200],
+          lineDashOffset: 0,
+          fill: 'transparent',
+          stroke: '#000',
+          lineWidth: 1
+        },
+        keyframeAnimation: {
+          duration: 3000,
+          loop: true,
+          keyframes: [
+            {
+              percent: 0.7,
+              style: {
+                fill: 'transparent',
+                lineDashOffset: 200,
+                lineDash: [200, 0]
+              }
+            },
+            {
+              // Stop for a while.
+              percent: 0.8,
+              style: {
+                fill: 'transparent'
+              }
+            },
+            {
+              percent: 1,
+              style: {
+                fill: 'red'
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+};
+
+const loadingChart = <ReactEcharts option={loadingOption} />;
+
 const Chart: React.FC<ChartProps> = ({ requestParams }) => {
   const [chartData, setChartData] = useState<DataItem[] | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   useEffect(() => {
-    setIsLoading(true);
-
     fetchGlassNodeData(requestParams.class, requestParams.data)
         .then(response => {
           console.log("response", response);
@@ -33,13 +83,12 @@ const Chart: React.FC<ChartProps> = ({ requestParams }) => {
         .catch(error => {
             console.error("Error fetching data:", error);
         })
-        .finally(() => {
-            setIsLoading(false);
-        });
 }, [requestParams]);
+
   if (chartData === null) {
-    return <div>chartData is Null...</div>;
+    return <div>{loadingChart}</div>
   }
+  else {
   // console.log("chartData", chartData);
   const keys = Object.keys(chartData[0].o); // Assuming all items have the same keys
   // console.log("keys", keys);
@@ -52,9 +101,7 @@ const Chart: React.FC<ChartProps> = ({ requestParams }) => {
   })) as echarts.SeriesOption[]; //Typecast to SeriesOption[]
 
   const option = {
-    title: {
-      text: 'Test the plot'
-    },
+
     toolbox: {
       feature: {
         saveAsImage: {},
@@ -91,7 +138,10 @@ const Chart: React.FC<ChartProps> = ({ requestParams }) => {
     series: series,
   };
 
-return <ReactEcharts option={option} />;
+  return <ReactEcharts option={option} />;
+}
 }
 
+export type {ChartProps, RequestParams, DataItem};
+export {loadingChart, loadingOption};
 export default Chart;
