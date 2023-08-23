@@ -3,16 +3,18 @@ import React, { useEffect, useState } from "react";
 import { AxiosResponse } from "axios";
 import { EChartsOption } from "echarts";
 import { fetchGlassNodeData } from "../api/glassnode_fetcher";
-
+import { TitleComponentOption as TitleOption } from "echarts";
 
 interface DataItem {
   t: string;
-  o: {
+  o?: {
       [key: string]: number;
   };
+  v?: number;
 }
 
 interface ChartProps {
+  title : string;
   requestParams: RequestParams;
 }
 
@@ -22,6 +24,10 @@ interface RequestParams {
 }
 
 const loadingOption = {
+  series: [
+    {
+    }
+  ],
   graphic: {
     elements: [
       {
@@ -72,8 +78,11 @@ const loadingOption = {
 
 const loadingChart = <ReactEcharts option={loadingOption} />;
 
-const Chart: React.FC<ChartProps> = ({ requestParams }) => {
+
+
+const Chart: React.FC<ChartProps> = ({ title, requestParams }) => {
   const [chartData, setChartData] = useState<DataItem[] | null>(null);
+  const [option, setOption] = useState<EChartsOption>(loadingOption); // Initialize with empty option
   useEffect(() => {
     fetchGlassNodeData(requestParams.class, requestParams.data)
         .then(response => {
@@ -85,28 +94,47 @@ const Chart: React.FC<ChartProps> = ({ requestParams }) => {
         })
 }, [requestParams]);
 
-  if (chartData === null) {
-    return <div>{loadingChart}</div>
-  }
-  else {
-  // console.log("chartData", chartData);
-  const keys = Object.keys(chartData[0].o); // Assuming all items have the same keys
-  // console.log("keys", keys);
+if (chartData === null) {
+  return <div>{loadingChart}</div>;
+} else {
+  let keys: string[] = [];
   const xAxisData = chartData.map(item => item.t);
-  // console.log("xAxisData", xAxisData)
-  const series = keys.map(key => ({
-    type: 'line',
-    name: key,
-    data: chartData.map(item => item.o[key]),
-  })) as echarts.SeriesOption[]; //Typecast to SeriesOption[]
+  let series;
+  if ('o' in chartData[0] && chartData[0].o) {
+    keys = Object.keys(chartData[0].o);
+    series = keys
+      .filter(key => key !== 't')
+      .map(key => ({
+        type: 'line',
+        name: key,
+        data: chartData.map(item => item.o && item.o[key]),
+      })) as echarts.SeriesOption[]; // Typecast to SeriesOption[]
+  } else if (chartData[0].v !== undefined) {
+    keys = requestParams.data.split('_');
+    series = [
+      {
+        type: 'line',
+        name: keys[0],
+        data: chartData.map(item => item.v!),
+      },
+    ] as echarts.SeriesOption[];
+  }
 
-  const option = {
+  let option = {
+    title: {
+      text: title,
+      textStyle: {
+        fontStyle: 20,
+        color : '#000000',
+      }
+    },
 
     toolbox: {
       feature: {
         saveAsImage: {},
         restore: {},
-      }
+      },
+      top: 'bottom',
     },
     dataZoom: [
       {
@@ -121,14 +149,14 @@ const Chart: React.FC<ChartProps> = ({ requestParams }) => {
     },
     legend: {
       type: 'scroll',
-      data: keys
+      data: keys,
     },  
     
     xAxis: {
         type: 'category',
         axisLabel: {
           formatter: function (value: string) {
-            return value.slice(0, 10) + '\n' + value.slice(11, 19);
+            return value.slice(0, 10);
           }
         },
         boundaryGap: false,

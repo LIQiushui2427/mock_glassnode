@@ -6,9 +6,11 @@
 }
 
 .night-mode-switch {
-    position: absolute;
-    bottom: 20px; /* Adjust this value as needed */
-    width: 100%; /* Expand to full width of left pane */
+    position: fixed; /* Change this to 'fixed' */
+    bottom: 0%;
+    width:20%;
+    background-color: rgb(151, 21, 32);
+    display: flex; /* Add flex display to center the switch */
 }
 
 .switch {
@@ -25,15 +27,13 @@
 }
 
 .slider {
-    position: absolute;
+    position: relative;
     cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    width: 40px;
+    height: 20px;
     background-color: #ccc;
+    border-radius: 20px; /* Adjust the border-radius for the pill shape */
     transition: 0.4s;
-    border-radius: 20px;
 }
 
 .slider:before {
@@ -46,10 +46,6 @@
     background-color: white;
     transition: 0.4s;
     border-radius: 50%;
-}
-
-input:checked + .slider {
-    background-color: #ff6b6b; /* On state background color */
 }
 
 input:checked + .slider:before {

@@ -43,7 +43,7 @@ function App() {
                                     <Route
                                         key={index}
                                         path={ChartRoute.route}
-                                        element={<Chart requestParams={ChartRoute.requestParams} />}
+                                        element={<Chart title = {ChartRoute.label} requestParams={ChartRoute.requestParams} />}
                                     />
                                 );
                             } else if (ChartRoute.chartType === 'compare') {

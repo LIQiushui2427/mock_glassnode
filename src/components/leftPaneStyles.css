@@ -16,11 +16,15 @@
 
 .left-pane {
     width: 25%; /* 1/4 of the app component width */
+    height: max-content;
+    max-height: calc(100vh - 40px); /* Maximum height based on viewport height minus padding */
     padding: 20px;
     color: var(--text-color);
     background-color: var(--background-color);
     box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.2);
     z-index: 1; /* Ensure left pane is above the chart */
+    margin-right: 20px; /* Add some space between left pane and chart */
+    overflow: auto; /* Add a scrollbar when content overflows */
 }
 
 .left-pane h2 {

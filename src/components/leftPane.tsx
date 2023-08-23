@@ -16,6 +16,7 @@ const LeftPane: React.FC<LeftPaneProps> = ({ chartRoutes, nightMode, onNightMode
     return (
         <div className="left-pane">
             <h2>Select your chart</h2>
+            <NightModeSwitch nightMode={nightMode} onNightModeChange={onNightModeChange} />
             <ul>
                 {chartRoutes.map((chartRoute, index) => (
                     <li key={index}>
@@ -27,7 +28,7 @@ const LeftPane: React.FC<LeftPaneProps> = ({ chartRoutes, nightMode, onNightMode
                     </li>
                 ))}
             </ul>
-            <NightModeSwitch nightMode={nightMode} onNightModeChange={onNightModeChange} />
+            
         </div> 
     );
 };
