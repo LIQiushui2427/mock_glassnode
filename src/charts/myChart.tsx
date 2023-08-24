@@ -5,6 +5,8 @@ import { EChartsOption } from "echarts";
 import { fetchGlassNodeData } from "../api/glassnode_fetcher";
 import { TitleComponentOption as TitleOption } from "echarts";
 
+import IntervalSwitcher from "./intervalSwitcher";
+
 interface DataItem {
   t: string;
   o?: {
@@ -19,8 +21,10 @@ interface ChartProps {
 }
 
 interface RequestParams {
+  symbol?: string; // Make the symbol property optional
   class: string;
   data: string;
+  interval?: string; // Make the interval property optional
 }
 
 const loadingOption = {
@@ -78,28 +82,11 @@ const loadingOption = {
 
 const loadingChart = <ReactEcharts option={loadingOption} />;
 
-
-
-const Chart: React.FC<ChartProps> = ({ title, requestParams }) => {
-  const [chartData, setChartData] = useState<DataItem[] | null>(null);
-  const [option, setOption] = useState<EChartsOption>(loadingOption); // Initialize with empty option
-  useEffect(() => {
-    fetchGlassNodeData(requestParams.class, requestParams.data)
-        .then(response => {
-          console.log("response", response);
-            setChartData(response.data);
-        })
-        .catch(error => {
-            console.error("Error fetching data:", error);
-        })
-}, [requestParams]);
-
-if (chartData === null) {
-  return <div>{loadingChart}</div>;
-} else {
+function buildOption(chartData: DataItem[], title: string, requestParams: RequestParams) {
   let keys: string[] = [];
   const xAxisData = chartData.map(item => item.t);
-  let series;
+  let series: echarts.SeriesOption[] = [];
+
   if ('o' in chartData[0] && chartData[0].o) {
     keys = Object.keys(chartData[0].o);
     series = keys
@@ -120,15 +107,15 @@ if (chartData === null) {
     ] as echarts.SeriesOption[];
   }
 
-  let option = {
+  const option = {
     title: {
       text: title,
+      top: 'bottom',
       textStyle: {
         fontStyle: 20,
-        color : '#000000',
-      }
+        color: '#000000',
+      },
     },
-
     toolbox: {
       feature: {
         saveAsImage: {},
@@ -138,9 +125,11 @@ if (chartData === null) {
     },
     dataZoom: [
       {
+      type: 'inside',
       xAxisIndex: 0,
       },
       {
+      type : 'slider',
       yAxisIndex: 0,
       },
     ],
@@ -162,12 +151,51 @@ if (chartData === null) {
         boundaryGap: false,
         data: xAxisData,
     },
-    yAxis: {}, //You need to configure yAxis as needed
-    series: series,
-  };
+    yAxis: {
+      innerHeight: 100,
+      type: 'value',
+      scale: true,
+      splitArea: {
+        show: true
+      },
+    }, //You need to configure yAxis as needed
+    series: series as echarts.SeriesOption[],
+  } as echarts.SeriesOption;
 
-  return <ReactEcharts option={option} />;
+  return option;
 }
+
+const Chart: React.FC<ChartProps> = ({ title, requestParams }) => {
+  const [chartData, setChartData] = useState<DataItem[] | null>(null);
+  const [option, setOption] = useState<EChartsOption>(loadingOption);
+  const [interval, setIntervalValue] = useState(requestParams.interval || "24h"); // Use a different name for state variable
+  const symbol = requestParams.symbol !== undefined ? requestParams.symbol : "btc";
+  
+  const fetchData = async () => {
+    try {
+      const response = await fetchGlassNodeData(symbol, requestParams.class, requestParams.data, interval);
+      setChartData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  
+  useEffect(() => {
+    setOption(loadingOption);
+    setChartData(null);
+    fetchData();
+  }, [requestParams, interval]);
+
+if (chartData === null) {
+  return <div>{loadingChart}</div>;
+} else {
+  return (
+    <div style={{ width: "100%", height: "100%" }}>
+      <IntervalSwitcher interval={interval} setInterval={setIntervalValue} />
+      <ReactEcharts option={buildOption(chartData, title, requestParams)} style={{ height: '100%', width: '100%' }} />
+    </div>  
+  );
+};
 }
 
 export type {ChartProps, RequestParams, DataItem};

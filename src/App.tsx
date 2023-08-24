@@ -11,33 +11,43 @@ import './styles.css';
 import './themes.css';
 import CompareChart from './charts/compareChart';
 import { ChartRoutes } from './dataConfig/leftPane';
-interface DataItem {
-  t: string;
-  o: {
-      [key: string]: number;
-  };
-}
+
 const keys = ['a', 'b'];
 
 function App() {
     const [appNightMode, setAppNightMode] = useState(false);
-
+    const [symbol, setSymbol] = useState('btc');
+    const [ChartRoutesLeftPane, setRoutesLeftPane] = useState(ChartRoutes);
     const handleAppNightModeChange = (newNightMode: boolean) => {
         setAppNightMode(newNightMode);
     };
 
+    useEffect(() => {
+        const updatedChartRoutes = ChartRoutes.map((ChartRoute) => {
+            return {
+            ...ChartRoute,
+            requestParams: {
+                ...ChartRoute.requestParams,
+                symbol: symbol
+            }
+            };
+        }) as typeof ChartRoutes;
+        setRoutesLeftPane(updatedChartRoutes);
+    }, [symbol]);
 
     return (
         <Router>
             <div className={`app ${appNightMode ? 'dark-theme' : 'light-theme'}`}>
                 <LeftPane
-                    chartRoutes={ChartRoutes}
+                    chartRoutes={ChartRoutesLeftPane}
                     nightMode={appNightMode}
+                    symbol={symbol}
+                    setSymbol={setSymbol}
                     onNightModeChange={handleAppNightModeChange}
                 />
                 <div className="chart-container">
                     <Routes>
-                        {ChartRoutes.map((ChartRoute, index) => {
+                        {ChartRoutesLeftPane.map((ChartRoute, index) => {
                             if (ChartRoute.chartType === 'regular') {
                                 return (
                                     <Route
@@ -51,7 +61,8 @@ function App() {
                                     <Route
                                         key={index}
                                         path={ChartRoute.route}
-                                        element={<CompareChart/>}
+                                        // element={<CompareChart symbol = {ChartRoute.requestParams.symbol}/>}
+                                        element={<CompareChart symbol = {'btc'}/>}
                                     />
                                 );
                             }

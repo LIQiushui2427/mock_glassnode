@@ -4,18 +4,22 @@ import { Link, useNavigate } from 'react-router-dom';
 import './leftPaneStyles.css';
 import NightModeSwitch from './nightModeSwitch';
 import { ChartRoutes } from '../dataConfig/leftPane';
+import SwitchSymbol from './switchSymbol';
+
 interface LeftPaneProps {
     chartRoutes: Array<{ label: string; route: string }>;
     nightMode: boolean;
+    symbol: string;
+    setSymbol: (symbolValue: string) => void;
     onNightModeChange: (newNightMode: boolean) => void;
 }
 
-const LeftPane: React.FC<LeftPaneProps> = ({ chartRoutes, nightMode, onNightModeChange }) => {
+const LeftPane: React.FC<LeftPaneProps> = ({ chartRoutes, nightMode, symbol, setSymbol, onNightModeChange }) => {
     const navigate = useNavigate();
 
     return (
         <div className="left-pane">
-            <h2>Select your chart</h2>
+            <SwitchSymbol symbol={symbol} setSymbol={setSymbol} />
             <NightModeSwitch nightMode={nightMode} onNightModeChange={onNightModeChange} />
             <ul>
                 {chartRoutes.map((chartRoute, index) => (

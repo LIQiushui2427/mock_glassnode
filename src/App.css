@@ -39,8 +39,8 @@
 
 /* Chart styles */
 .chart-container {
-    height: auto;
-    width: auto;
-    padding: 20px;
+    height: 100%;
+    width: 100%;
+    padding: auto;
     overflow: auto;
 }

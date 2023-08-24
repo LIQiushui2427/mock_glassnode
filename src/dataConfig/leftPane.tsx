@@ -11,8 +11,32 @@ const ChartRoutes = Object.entries(dict).map(([label, requestParams]) => ({
 ChartRoutes.push({
     label: 'Compare',
     route: '/compare',
-    requestParams: { class: 'compare', data: '' },
+    requestParams: {symbol:'', class: 'compare', data: '', interval: '' },
     chartType: 'compare', // Indicate that this is a compare chart
 });
+interface SymbolMappings {
+    [key: string]: string;
+}
+const symbols: SymbolMappings = {
+    'Bitcoin': 'btc',
+    'Ethereum': 'eth',
+    'Litecoin': 'ltc',
 
-export { ChartRoutes };
+    'Binance USD': 'busd',
+    'Dai': 'dai',
+    'Frax': 'frax',
+    'Gemini Dollar': 'gusd',
+    'HUSD': 'husd',
+    'Paxos Standard': 'usdp',
+    'Rai Reflex Index': 'rai',
+    'STASIS Euro': 'eurs',
+    'Tether USDt': 'usdt',
+    'TrueUSD': 'tusd',
+    'USD Coin': 'usdc',
+    'USDD': 'usdd',
+    'sUSD': 'susd',
+}
+
+const intervals = ['24h', '1h'];
+
+export { ChartRoutes, symbols, intervals };
