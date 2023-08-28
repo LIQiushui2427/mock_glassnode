@@ -35,6 +35,8 @@ const buildOptionWithChartData = (symbol: string, data: Record<string, DataItem[
         color: colors[index % colors.length]
       }
     },
+    max: 'dataMax',
+    min : 'dataMin',
     axisLabel: {
       formatter: "{value}"
     }

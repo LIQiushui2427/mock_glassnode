@@ -152,9 +152,12 @@ function buildOption(chartData: DataItem[], title: string, requestParams: Reques
         data: xAxisData,
     },
     yAxis: {
+      name: title,
       innerHeight: 100,
       type: 'value',
       scale: true,
+      max: 'dataMax',
+      min: 'dataMin',
       splitArea: {
         show: true
       },
