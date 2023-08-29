@@ -20,21 +20,22 @@ interface SymbolMappings {
 const symbols: SymbolMappings = {
     'Bitcoin': 'btc',
     'Ethereum': 'eth',
-    'Litecoin': 'ltc',
+    // Below are the rest of the symbols, not provided from Glassnode API.
+    // 'Litecoin': 'ltc',
 
-    'Binance USD': 'busd',
-    'Dai': 'dai',
-    'Frax': 'frax',
-    'Gemini Dollar': 'gusd',
-    'HUSD': 'husd',
-    'Paxos Standard': 'usdp',
-    'Rai Reflex Index': 'rai',
-    'STASIS Euro': 'eurs',
-    'Tether USDt': 'usdt',
-    'TrueUSD': 'tusd',
-    'USD Coin': 'usdc',
-    'USDD': 'usdd',
-    'sUSD': 'susd',
+    // 'Binance USD': 'busd',
+    // 'Dai': 'dai',
+    // 'Frax': 'frax',
+    // 'Gemini Dollar': 'gusd',
+    // 'HUSD': 'husd',
+    // 'Paxos Standard': 'usdp',
+    // 'Rai Reflex Index': 'rai',
+    // 'STASIS Euro': 'eurs',
+    // 'Tether USDt': 'usdt',
+    // 'TrueUSD': 'tusd',
+    // 'USD Coin': 'usdc',
+    // 'USDD': 'usdd',
+    // 'sUSD': 'susd',
 }
 
 const intervals = ['24h', '1h'];
