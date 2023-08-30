@@ -81,7 +81,8 @@ const legendData: string[] = seriesConfigs.map(seriesConfig => seriesConfig.name
       show: true,
       feature: {
         dataZoom: {
-          yAxisIndex: 'none'
+          yAxisIndex: 'none',
+          xAxisIndex: 'none',
         },
         dataView: { readOnly: false },
         magicType: { type: ['line', 'bar'] },
@@ -101,7 +102,8 @@ const legendData: string[] = seriesConfigs.map(seriesConfig => seriesConfig.name
   },
     yAxis: yAxisConfigs as YAxisOption[],
     dataZoom: [
-      {xAxisIndex: 0, type: 'inside',  filterMode: 'filter', zoomOnMouseWheel:true, },
+      {xAxisIndex: 0, filterMode: 'filter', zoomOnMouseWheel:true, },
+      {xAxisIndex: 0, type: 'inside', filterMode: 'filter', zoomOnMouseWheel:true,},
       {yAxisIndex: 0, filterMode: 'empty', zoomOnMouseWheel:true, },
     ],
     graphic: {

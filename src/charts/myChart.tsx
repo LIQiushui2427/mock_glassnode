@@ -124,14 +124,9 @@ function buildOption(chartData: DataItem[], title: string, requestParams: Reques
       top: 'bottom',
     },
     dataZoom: [
-      {
-      type: 'inside',
-      xAxisIndex: 0,
-      },
-      {
-      type : 'slider',
-      yAxisIndex: 0,
-      },
+      {xAxisIndex: 0, filterMode: 'filter', zoomOnMouseWheel:true, },
+      {xAxisIndex: 0, type: 'inside', filterMode: 'filter', zoomOnMouseWheel:true,},
+      {yAxisIndex: 0, filterMode: 'empty', zoomOnMouseWheel:true, },
     ],
     tooltip: {
       trigger: 'axis'
